@@ -15,7 +15,7 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
+  StatusBar, Alert,
 } from 'react-native';
 
 import {
@@ -26,9 +26,47 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import messaging from "@react-native-firebase/messaging";
+
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  async function registerAppWithFCM() {
+    try {
+      await messaging().registerDeviceForRemoteMessages();
+    } catch (e) {
+      console.log('[ERROR] register Device For Remote Messages', e);
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      await requestUserPermission();
+      await registerAppWithFCM();
+
+      const _deviceToken = await messaging().getToken();
+      console.log('Device Token:', _deviceToken);
+
+    })();
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <>
