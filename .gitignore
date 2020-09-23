@@ -1,6 +1,14 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/reactnative,webstorm,xcode,androidstudio
-# Edit at https://www.toptal.com/developers/gitignore?templates=reactnative,webstorm,xcode,androidstudio
+# Created by https://www.toptal.com/developers/gitignore/api/reactnative,webstorm,xcode,androidstudio,cocoapods
+# Edit at https://www.toptal.com/developers/gitignore?templates=reactnative,webstorm,xcode,androidstudio,cocoapods
+
+### CocoaPods ###
+## CocoaPods GitIgnore Template
+
+# CocoaPods - Only use to conserve bandwidth / Save time on Pushing
+#           - Also handy if you have a large number of dependant pods
+#           - AS PER https://guides.cocoapods.org/using/using-cocoapods.html NEVER IGNORE THE LOCK FILE
+Pods/
 
 ### ReactNative ###
 # React Native Stack Base
@@ -509,4 +517,4 @@ hs_err_pid*
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# End of https://www.toptal.com/developers/gitignore/api/reactnative,webstorm,xcode,androidstudio
+# End of https://www.toptal.com/developers/gitignore/api/reactnative,webstorm,xcode,androidstudio,cocoapods
