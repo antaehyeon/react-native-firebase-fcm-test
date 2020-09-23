@@ -8,6 +8,11 @@ target 'RNFirebase' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  # add the Firebase pod for Google Analytics
+  pod 'Firebase/CoreOnly'
+  # pod 'FirebaseCoreDiagnostics', :git=>'https://github.com/firebase/firebase-ios-sdk.git', :branch=>'release-6.33.0'
+  # pod 'GoogleDataTransport', :git=>'https://github.com/firebase/firebase-ios-sdk.git', :branch=>'release-6.33.0'
+
   target 'RNFirebaseTests' do
     inherit! :complete
     # Pods for testing

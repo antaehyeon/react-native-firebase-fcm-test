@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -29,6 +29,7 @@ import {
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
