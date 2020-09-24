@@ -15,7 +15,7 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar, Alert,
+  StatusBar, Alert, Pressable,
 } from 'react-native';
 
 import {
@@ -28,7 +28,11 @@ import {
 
 import messaging from "@react-native-firebase/messaging";
 
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
 declare const global: {HermesInternal: null | {}};
+
+const PushNotification = require("react-native-push-notification");
 
 const App = () => {
 
@@ -51,6 +55,23 @@ const App = () => {
     }
   }
 
+  const onRemoteNotification = (notification) => {
+
+    console.log('onRemoteNotification notification', notification);
+
+    // const isClicked = notification.getData().userInteraction === 1
+
+    // if (isClicked) {
+    //   // Navigate user to another screen
+    // } else {
+    //   // Do something else with push notification
+    // }
+  };
+
+  useEffect(() => {
+    PushNotificationIOS.addEventListener('notification', onRemoteNotification)
+  }, []);
+
   useEffect(() => {
     (async () => {
       await requestUserPermission();
@@ -62,16 +83,36 @@ const App = () => {
     })();
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log('Firebase messaging onMessage', JSON.stringify(remoteMessage));
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // PushNotificationIOS.presentLocalNotification({
+      //   alertTitle: remoteMessage.notification.title,
+      //   alertBody: remoteMessage.notification.body,
+      // });
+      PushNotification.localNotification({
+        id: remoteMessage.messageId,
+        title: remoteMessage.notification.title,
+        message: remoteMessage.notification.body,
+      });
+
     });
 
     return unsubscribe;
   }, []);
 
+  const showLocalPushNotification = () => {
+    PushNotification.localNotification({
+      message: "Local Push Notification",
+    })
+  }
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
+        <Pressable onPress={showLocalPushNotification} >
+          <Text>LOCAL PUSH NOTIFICATION</Text>
+        </Pressable>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
